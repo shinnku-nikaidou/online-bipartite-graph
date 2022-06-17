@@ -65,7 +65,7 @@ public:
         size_t ui = _key_to_index_U.at(u);
         size_t vi = _key_to_index_V.at(v);
         adjacency_list_of_u[ui].push_back(vi);
-        adjacency_list_of_u[vi].push_back(ui);
+        adjacency_list_of_v[vi].push_back(ui);
       } else {
         std::cerr << "the conflicted edge is (" << u << " ," << v << " )\n";
         throw std::invalid_argument("argument edges = [(u,v)] should satisfy "
@@ -87,10 +87,12 @@ public:
     size_t count = 0;
 
     for (Key v : order) {
+      std::cout << v << std::endl;
       const size_t v_i = _key_to_index_V.at(v);
       const vector<size_t> &adj_of_v = adj_v_can_assigned[v_i];
       size_t u_i = way(adj_of_v);
-      if (u_i == -1)
+      std::cout << u_i << std::endl;
+      if (u_i == -1) // -1 in size_t is 0xffffffff
         continue;
       ++count;
       for (vector<size_t> &adj_v : adj_v_can_assigned) {
@@ -99,6 +101,7 @@ public:
           adj_v.erase(p);
         }
       }
+      std::cout << std::endl;
     }
     return count;
   }

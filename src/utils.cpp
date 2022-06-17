@@ -14,7 +14,7 @@ size_t random_assign(std::vector<size_t> v_adj) {
   if (v_adj.size() == 0)
     return -1;
   std::uniform_int_distribution<size_t> uniform_dist(0, v_adj.size() - 1);
-  return uniform_dist(gen);
+  return v_adj[uniform_dist(gen)];
 }
 
 #endif /* _BI_UTILS_CPP */
