@@ -3,20 +3,19 @@
 
 #include "adaptor.cpp"
 
-template <typename Nodes>
-concept nodeable = std::random_access_iterator<typename Nodes::iterator>;
+template <typename Vec>
+concept is_vec = std::random_access_iterator<typename Vec::iterator>;
 
 /*
- * A bipartite graph, also called a bigraph, 
- * is a set of graph vertices decomposed into two disjoint sets 
- * such that no two graph vertices within the same set are adjacent. 
- * A bipartite graph is a special case of a k-partite graph with k=2. 
- * The illustration above shows some bipartite graphs, 
- * with vertices in each graph colored based on to 
+ * A bipartite graph, also called a bigraph,
+ * is a set of graph vertices decomposed into two disjoint sets
+ * such that no two graph vertices within the same set are adjacent.
+ * A bipartite graph is a special case of a k-partite graph with k=2.
+ * The illustration above shows some bipartite graphs,
+ * with vertices in each graph colored based on to
  * which of the two disjoint sets they belong.
  */
-template <typename Key, nodeable Nodes, typename Edges,
-          typename Alloc = std::allocator<Key>>
+template <typename Key, is_vec Nodes, is_vec Edges>
 requires(
     std::same_as<typename Nodes::value_type, Key> &&std::same_as<
         typename std::tuple_element<0, typename Edges::value_type>::type, Key>
@@ -30,8 +29,12 @@ public:
   Nodes U, V;
   bipartite_graph() = delete;
 
-  /* 
-   * U contain all the nodes
+  /*
+   * U contain all the nodes which is advertiser
+   * V is ad-slot.
+   * edges should be the list which contains (u, v),
+   * and also satisfy $u \in U$ and $v \in V$.
+   * note that this is undirected graph.
    */
   bipartite_graph(const Nodes &U, const Nodes &V, const Edges &edges) {
     this->U = U;
@@ -46,14 +49,28 @@ public:
         adjacency_list_of_u.push_back({});
       }
     }
-    i = 0;
+    size_t j = 0;
     for (const auto &v : V) {
       if (_key_to_index_V.contains(v)) {
         throw std::invalid_argument("V Key should not contain the same value.");
       } else {
-        _key_to_index_V[v] = i;
+        _key_to_index_V[v] = j;
         i++;
         adjacency_list_of_v.push_back({});
+      }
+    }
+    for (const auto &edge : edges) {
+      auto u = std::get<0>(edge);
+      auto v = std::get<1>(edge);
+      if (_key_to_index_U.contains(u) && _key_to_index_V.contains(v)) {
+        size_t ui = _key_to_index_U[u];
+        size_t vi = _key_to_index_V[v];
+        adjacency_list_of_u[ui].push_back(vi);
+        adjacency_list_of_u[vi].push_back(ui);
+      } else {
+        std::cerr << "the conflicted edge is (" << u << " ," << v << " )\n";
+        throw std::invalid_argument("argument edges = [(u,v)] should satisfy "
+                                    "$u \\in U$ and $v \\in V$.");
       }
     }
   };
