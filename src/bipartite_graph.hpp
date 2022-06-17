@@ -87,11 +87,9 @@ public:
     size_t count = 0;
 
     for (Key v : order) {
-      std::cout << v << std::endl;
       const size_t v_i = _key_to_index_V.at(v);
       const vector<size_t> &adj_of_v = adj_v_can_assigned[v_i];
       size_t u_i = way(adj_of_v);
-      std::cout << u_i << std::endl;
       if (u_i == -1) // -1 in size_t is 0xffffffff
         continue;
       ++count;
@@ -101,7 +99,6 @@ public:
           adj_v.erase(p);
         }
       }
-      std::cout << std::endl;
     }
     return count;
   }
