@@ -2,6 +2,8 @@
 #define BIPARTITE_GRAPH_HPP
 
 #include "adaptor.cpp"
+#include <algorithm>
+#include <functional>
 
 template <typename Vec>
 concept is_vec = std::random_access_iterator<typename Vec::iterator>;
@@ -60,8 +62,8 @@ public:
       auto u = std::get<0>(edge);
       auto v = std::get<1>(edge);
       if (_key_to_index_U.contains(u) && _key_to_index_V.contains(v)) {
-        size_t ui = _key_to_index_U[u];
-        size_t vi = _key_to_index_V[v];
+        size_t ui = _key_to_index_U.at(u);
+        size_t vi = _key_to_index_V.at(v);
         adjacency_list_of_u[ui].push_back(vi);
         adjacency_list_of_u[vi].push_back(ui);
       } else {
@@ -71,6 +73,35 @@ public:
       }
     }
   };
+
+  // TODO!
+  size_t maximum_matching() const;
+
+  // return the number of successfully assigned.
+  // v is assigned to one of the U.
+  // if the way cannot assign v to one of the U,
+  // it should return -1.
+  size_t assign(const vector<Key> &order,
+                std::function<size_t(vector<size_t>)> way) const {
+    auto adj_v_can_assigned = adjacency_list_of_v;
+    size_t count = 0;
+
+    for (Key v : order) {
+      const size_t v_i = _key_to_index_V.at(v);
+      const vector<size_t> &adj_of_v = adj_v_can_assigned[v_i];
+      size_t u_i = way(adj_of_v);
+      if (u_i == -1)
+        continue;
+      ++count;
+      for (vector<size_t> &adj_v : adj_v_can_assigned) {
+        auto p = std::find(adj_v.begin(), adj_v.end(), u_i);
+        if (p != adj_v.end()) {
+          adj_v.erase(p);
+        }
+      }
+    }
+    return count;
+  }
 
 private:
   std::unordered_map<Key, size_t> _key_to_index_U, _key_to_index_V;

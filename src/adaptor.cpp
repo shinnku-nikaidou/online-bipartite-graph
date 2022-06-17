@@ -9,6 +9,7 @@
 #include <tuple>
 #include <unordered_map>
 #include <exception>
+#include <functional>
 
 using std::vector;
 using std::operator""s;
