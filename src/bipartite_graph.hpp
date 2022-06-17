@@ -39,23 +39,20 @@ public:
   bipartite_graph(const Nodes &U, const Nodes &V, const Edges &edges) {
     this->U = U;
     this->V = V;
-    size_t i = 0;
+    size_t i = 0, j = 0;
     for (const auto &u : U) {
       if (_key_to_index_U.contains(u)) {
         throw std::invalid_argument("U Key should not contain the same value.");
       } else {
-        _key_to_index_U[u] = i;
-        i++;
+        _key_to_index_U[u] = i++;
         adjacency_list_of_u.push_back({});
       }
     }
-    size_t j = 0;
     for (const auto &v : V) {
       if (_key_to_index_V.contains(v)) {
         throw std::invalid_argument("V Key should not contain the same value.");
       } else {
-        _key_to_index_V[v] = j;
-        i++;
+        _key_to_index_V[v] = j++;
         adjacency_list_of_v.push_back({});
       }
     }
