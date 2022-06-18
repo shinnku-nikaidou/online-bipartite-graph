@@ -8,3 +8,12 @@ add_executable(
         ${PROJECT_NAME}
         main.cpp
 ) 
+
+add_subdirectory(test)
+
+target_include_directories(
+        ${PROJECT_NAME}
+        PRIVATE
+        src
+        test
+)
