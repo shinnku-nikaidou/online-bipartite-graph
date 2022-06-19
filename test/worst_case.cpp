@@ -5,14 +5,15 @@
  *
  */
 
+#ifndef _WORST_CASE_CPP
+#define _WORST_CASE_CPP
+
 #include "../src/bipartite_graph.hpp"
 #include "../src/kvv90.cpp"
 #include "../src/utils.cpp"
 
 #include <array>
 #include <deque>
-#include <mutex>
-#include <thread>
 
 constexpr size_t TIMES = 100;
 typedef int Key;
@@ -73,38 +74,23 @@ Case get_worst_case2(const int N) {
   return std::make_tuple(2 * N, U, V, E);
 }
 
-auto test_worst_case(std::function<Case(const int)> get_worst_case,
-                     std::function<size_t(vector<size_t>)> way,
-                     const int N = 1000, size_t times = TIMES) {
-  int OPT;
-  Nodes U, V;
-  Edges E;
-  std::tie(OPT, U, V, E) = get_worst_case(N);
+auto test_worst_case(const Case &cases,
+                     const std::function<size_t(vector<size_t>)> &way,
+                     size_t times = TIMES) {
+  auto [OPT, U, V, E] = cases;
   auto G = bipartite_graph<Key, Nodes, decltype(E)>(U, V, E);
 
-  unsigned int n_core = std::thread::hardware_concurrency() - 2;
-  std::mutex sum_mutex;
   int _opt_now = 0;
   int _success_count = 0;
-  auto f = [&]() {
-    for (int i = 0; i < times; i++) {
-      auto t = G.assign(V, way);
-      {
-        const std::lock_guard<std::mutex> lock(sum_mutex);
-        _opt_now += OPT;
-        _success_count += t;
-      }
-    }
-  };
-  std::vector<std::thread> threads{};
-  for (int i = 0; i < n_core; i++) {
-    threads.push_back(std::thread(f));
-  }
-  for (int i = 0; i < n_core; i++) {
-    threads[i].join();
+  for (int i = 0; i < times; i++) {
+    auto t = G.assign(V, way);
+    _opt_now += OPT;
+    _success_count += t;
   }
   auto ratio = (double)_success_count / (double)_opt_now;
   std::cout << "ratio: " << _success_count << " / " << _opt_now << " = "
             << ratio << std::endl;
   return ratio;
 }
+
+#endif /* _WORST_CASE_CPP */

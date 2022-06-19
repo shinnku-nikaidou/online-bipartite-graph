@@ -1,12 +1,9 @@
 #ifndef BIPARTITE_GRAPH_HPP
 #define BIPARTITE_GRAPH_HPP
 
-#include "adaptor.cpp"
+#include "utils.cpp"
 #include <algorithm>
 #include <functional>
-
-template <typename Vec>
-concept is_vec = std::random_access_iterator<typename Vec::iterator>;
 
 /*
  * A bipartite graph, also called a bigraph,
@@ -92,6 +89,12 @@ public:
       size_t u_i = way(adj_of_v);
       if (u_i == -1) // -1 in size_t is 0xffffffff
         continue;
+#ifdef _DEBUG
+      if (std::find(adj_of_v.begin(), adj_of_v.end(), u_i) == adj_of_v.end()) {
+        std::cerr << "u_i = " << u_i << "\n";
+        throw std::runtime_error("u_i should be one of the adj_v");
+      }
+#endif
       ++count;
       for (vector<size_t> &adj_v : adj_v_can_assigned) {
         auto p = std::find(adj_v.begin(), adj_v.end(), u_i);
