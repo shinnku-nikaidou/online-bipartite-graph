@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23.2)
+cmake_minimum_required(VERSION 3.16)
 
 project(bipartite_matching  VERSION 1.0)
 
