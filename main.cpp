@@ -2,6 +2,6 @@
 
 int main() {
   std::cout << "Hello world\n";
-  test_worst_case1_with_random_assign(1000);
+  test_worst_case(get_worst_case2, random_assign);
   return 0;
 }
