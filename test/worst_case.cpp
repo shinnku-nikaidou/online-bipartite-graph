@@ -75,7 +75,7 @@ Case get_worst_case2(const int N) {
 }
 
 auto test_worst_case(const Case &cases,
-                     const std::function<size_t(vector<size_t>)> &way,
+                     const std::function<size_t(std::vector<size_t>)> &way,
                      size_t times = TIMES) {
   auto [OPT, U, V, E] = cases;
   auto G = bipartite_graph<Key, Nodes, decltype(E)>(U, V, E);

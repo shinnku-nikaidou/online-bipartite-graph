@@ -9,7 +9,7 @@ namespace kvv90 {
 
 template <is_vec Nodes> struct Ranking {
   size_t len;
-  vector<int> _rank;
+  std::vector<int> _rank;
 
   Ranking() = delete;
   Ranking(const Ranking &new_rank) {
@@ -24,14 +24,14 @@ template <is_vec Nodes> struct Ranking {
     std::random_device _rd;
     std::default_random_engine _gen{_rd()};
     len = U.size();
-    _rank = vector<int>(len, 0);
+    _rank = std::vector<int>(len, 0);
     for (int i = 0; i < len; i++) {
       _rank[i] = i;
     }
     std::shuffle(std::begin(_rank), std::end(_rank), _gen);
   }
 
-  size_t operator()(const vector<size_t> &v_adj) const {
+  size_t operator()(const std::vector<size_t> &v_adj) const {
     if (v_adj.empty())
       return -1;
     auto _min = std::numeric_limits<size_t>::max();

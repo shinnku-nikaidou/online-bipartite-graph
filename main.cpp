@@ -11,8 +11,8 @@ int main() {
   unsigned int n_core = std::thread::hardware_concurrency() - 1;
   std::cout << "Hello world\n";
   auto f = []() {
-    auto cases = get_worst_case2(N);
-    auto [OPT, U, V, E] = cases;
+    auto cases = get_worst_case1(N);
+    auto& [OPT, U, V, E] = cases;
     auto kvv90_ranking = kvv90::Ranking(U);
     test_worst_case(cases, kvv90_ranking, times);
     // test_worst_case(cases, random_assign);

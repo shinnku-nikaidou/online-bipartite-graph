@@ -11,9 +11,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
-#include <utility>
 
-using std::vector;
 using std::operator""s;
 
 template <typename Vec>
