@@ -1,7 +1,7 @@
-#ifndef BIPARTITE_GRAPH_HPP
-#define BIPARTITE_GRAPH_HPP
+#ifndef _BIPARTITE_GRAPH_HPP
+#define _BIPARTITE_GRAPH_HPP
 
-#include "utils.cpp"
+#include "utils.hpp"
 #include <algorithm>
 #include <functional>
 
@@ -111,4 +111,4 @@ protected:
   std::vector<std::vector<size_t>> adjacency_list_of_u, adjacency_list_of_v;
 };
 
-#endif // BIPARTITE_GRAPH_HPP
+#endif // _BIPARTITE_GRAPH_HPP

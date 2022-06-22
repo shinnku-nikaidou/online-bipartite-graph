@@ -1,8 +1,8 @@
-#ifndef KVV90_CPP
-#define KVV90_CPP
+#ifndef _KVV90_HPP
+#define _KVV90_HPP
 
 #include "bipartite_graph.hpp"
-#include "utils.cpp"
+#include "utils.hpp"
 #include <limits>
 
 namespace kvv90 {
@@ -48,4 +48,4 @@ template <is_vec Nodes> struct Ranking {
 };
 
 } // namespace kvv90
-#endif /* KVV90_CPP */
+#endif /* _KVV90_HPP */

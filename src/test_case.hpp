@@ -5,22 +5,22 @@
  *
  */
 
-#ifndef _WORST_CASE_CPP
-#define _WORST_CASE_CPP
+#ifndef _TEST_CASE_HPP
+#define _TEST_CASE_HPP
 
-#include "../src/bipartite_graph.hpp"
-#include "../src/kvv90.cpp"
-#include "../src/utils.cpp"
-
-#include <array>
-#include <deque>
+#include "bipartite_graph.hpp"
+#include "kvv90.hpp"
+#include "utils.hpp"
 
 constexpr size_t TIMES = 100;
+
 typedef int Key;
 typedef std::vector<Key> Nodes;
-typedef std::deque<std::pair<Key, Key>> Edges;
+typedef std::vector<std::pair<Key, Key>> Edges;
 
 using Case = std::tuple<int, Nodes, Nodes, Edges>;
+
+namespace kvv90 {
 
 // N means the size of Graph, |U| = |V| = n
 // The graph means for all i, $v_i$ connected
@@ -73,10 +73,11 @@ Case get_worst_case2(const int N) {
   }
   return std::make_tuple(2 * N, U, V, E);
 }
+} // namespace kvv90
 
-auto test_worst_case(const Case &cases,
-                     const std::function<size_t(std::vector<size_t>)> &way,
-                     size_t times = TIMES) {
+auto test_default_bigraph(const Case &cases,
+                          const std::function<size_t(std::vector<size_t>)> &way,
+                          size_t times = TIMES) {
   auto [OPT, U, V, E] = cases;
   auto G = bipartite_graph<Key, Nodes, decltype(E)>(U, V, E);
 
@@ -93,4 +94,4 @@ auto test_worst_case(const Case &cases,
   return ratio;
 }
 
-#endif /* _WORST_CASE_CPP */
+#endif /* _TEST_CASE_HPP */
