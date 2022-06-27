@@ -8,7 +8,7 @@ constexpr size_t times = 1000;
 
 int main() {
   unsigned int n_core = std::thread::hardware_concurrency() - 1;
-  std::cout << "Hello world\n";
+  std::cout << n_core << " :Hello world\n";
   auto f = []() {
     auto cases = kvv90::get_worst_case1(N);
     auto& [OPT, U, V, E] = cases;
