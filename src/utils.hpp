@@ -14,8 +14,6 @@
 #include <utility>
 #include <vector>
 
-using std::operator""s;
-
 template <typename Vec>
 concept is_vec = std::random_access_iterator<typename Vec::iterator>;
 

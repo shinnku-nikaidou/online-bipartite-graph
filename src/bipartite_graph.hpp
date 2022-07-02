@@ -38,37 +38,8 @@ public:
   bipartite_graph(const Nodes &U, const Nodes &V, const Edges &edges) {
     this->U = U;
     this->V = V;
-    size_t i = 0, j = 0;
-    for (const auto &u : U) {
-      if (_key_to_index_U.contains(u)) {
-        throw std::invalid_argument("U Key should not contain the same value.");
-      } else {
-        _key_to_index_U[u] = i++;
-        adjacency_list_of_u.push_back({});
-      }
-    }
-    for (const auto &v : V) {
-      if (_key_to_index_V.contains(v)) {
-        throw std::invalid_argument("V Key should not contain the same value.");
-      } else {
-        _key_to_index_V[v] = j++;
-        adjacency_list_of_v.push_back({});
-      }
-    }
-    for (const auto &edge : edges) {
-      auto u = std::get<0>(edge);
-      auto v = std::get<1>(edge);
-      if (_key_to_index_U.contains(u) && _key_to_index_V.contains(v)) {
-        size_t ui = _key_to_index_U.at(u);
-        size_t vi = _key_to_index_V.at(v);
-        adjacency_list_of_u[ui].push_back(vi);
-        adjacency_list_of_v[vi].push_back(ui);
-      } else {
-        std::cerr << "the conflicted edge is (" << u << " ," << v << " )\n";
-        throw std::invalid_argument("argument edges = [(u,v)] should satisfy "
-                                    "$u \\in U$ and $v \\in V$.");
-      }
-    }
+    __init_key_to_index(this->U, this->V);
+    __init_edges_(edges);
   };
 
   // TODO!
@@ -109,6 +80,43 @@ public:
 protected:
   std::unordered_map<Key, size_t> _key_to_index_U, _key_to_index_V;
   std::vector<std::vector<size_t>> adjacency_list_of_u, adjacency_list_of_v;
+
+  void __init_key_to_index(const Nodes &U, const Nodes &V) {
+    size_t i = 0, j = 0;
+    for (const auto &u : U) {
+      if (_key_to_index_U.contains(u)) {
+        throw std::invalid_argument("U Key should not contain the same value.");
+      } else {
+        _key_to_index_U[u] = i++;
+        adjacency_list_of_u.push_back({});
+      }
+    }
+    for (const auto &v : V) {
+      if (_key_to_index_V.contains(v)) {
+        throw std::invalid_argument("V Key should not contain the same value.");
+      } else {
+        _key_to_index_V[v] = j++;
+        adjacency_list_of_v.push_back({});
+      }
+    }
+  }
+
+  void __init_edges_(const Edges &edges) {
+    for (const auto &edge : edges) {
+      auto u = std::get<0>(edge);
+      auto v = std::get<1>(edge);
+      if (_key_to_index_U.contains(u) && _key_to_index_V.contains(v)) {
+        size_t ui = _key_to_index_U.at(u);
+        size_t vi = _key_to_index_V.at(v);
+        adjacency_list_of_u[ui].push_back(vi);
+        adjacency_list_of_v[vi].push_back(ui);
+      } else {
+        std::cerr << "the conflicted edge is (" << u << " ," << v << " )\n";
+        throw std::invalid_argument("argument edges = [(u,v)] should satisfy "
+                                    "$u \\in U$ and $v \\in V$.");
+      }
+    }
+  }
 };
 
 #endif // _BIPARTITE_GRAPH_HPP
