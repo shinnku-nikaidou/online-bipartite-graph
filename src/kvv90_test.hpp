@@ -27,7 +27,7 @@ namespace kvv90 {
 // with $\{ u_i, u_{i+1}, ..., u_n \}$
 // and the ratio with any algorithm is (1 - 1 / e)
 // when lim n \to \inf
-Case get_worst_case1(const int N) {
+inline Case get_worst_case1(const int N) {
   Nodes U;
   Nodes V;
   for (int u = 0; u < N; u++) {
@@ -53,7 +53,7 @@ Case get_worst_case1(const int N) {
 // (the i'th vertex in U and V have an edge between them).
 // There is also a bipartite clique between V1 and U2 .
 // It can be shown that Random achieves a **ratio** of 1/2 + o(1)
-Case get_worst_case2(const int N) {
+inline Case get_worst_case2(const int N) {
   Nodes U;
   Nodes V;
   for (int u = 0; u < 2 * N; u++) {
@@ -75,7 +75,7 @@ Case get_worst_case2(const int N) {
 }
 } // namespace kvv90
 
-auto test_default_bigraph(const Case &cases,
+inline auto test_default_bigraph(const Case &cases,
                           const std::function<size_t(std::vector<size_t>)> &way,
                           size_t times = TIMES) {
   auto [OPT, U, V, E] = cases;

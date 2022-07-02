@@ -1,5 +1,4 @@
-#define _DEBUG
-#include "src/test_case.hpp"
+#include "src/kvv90_test.hpp"
 #include <mutex>
 #include <thread>
 
@@ -7,11 +6,11 @@ constexpr size_t N = 200;
 constexpr size_t times = 1000;
 
 int main() {
-  unsigned int n_core = std::thread::hardware_concurrency() - 1;
-  std::cout << n_core << " :Hello world\n";
+  size_t n_core = std::max((int)std::thread::hardware_concurrency() - 1, 1);
+  std::cout << n_core << " :use these cpu cores to run\n";
   auto f = []() {
     auto cases = kvv90::get_worst_case1(N);
-    auto& [OPT, U, V, E] = cases;
+    auto &[OPT, U, V, E] = cases;
     auto kvv90_ranking = kvv90::Ranking(U);
     test_default_bigraph(cases, kvv90_ranking, times);
     // test_default_bigraph(cases, random_assign);
