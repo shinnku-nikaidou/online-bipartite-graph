@@ -27,6 +27,9 @@ public:
   requires(std::is_same<typename _W_arr::value_type, Val>::value)
       weighted_bipartite_graph(const Nodes &U, const Nodes &V,
                                const Edges &edges, const _W_arr &U_weights) {
+    if (U.size() != U_weights.size()) {
+      throw std::length_error("U and it's weights should have the same length");
+    }
     this->U = U;
     this->V = V;
     for (const auto &w : U_weights) {
