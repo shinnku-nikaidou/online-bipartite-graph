@@ -19,7 +19,7 @@ void _temp_test_1(size_t n_core) {
     auto cases = kvv90::get_worst_case1(N);
     auto &[OPT, U, V, E] = cases;
     auto kvv90_ranking = kvv90::Ranking(U);
-    test_default_bigraph(cases, kvv90_ranking, times);
+    dbg::test_default_bigraph(cases, kvv90_ranking, times);
     // test_default_bigraph(cases, random_assign);
   };
   std::vector<std::thread> threads{};

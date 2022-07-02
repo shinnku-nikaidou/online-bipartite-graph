@@ -53,6 +53,33 @@ public:
 
   size_t maximum_matching() const override{todo};
 
+  Val assign(const std::vector<Key> &order,
+             std::function<size_t(std::vector<size_t>)> way) const override {
+    auto adj_v_can_assigned = this->adjacency_list_of_v;
+    Val val = 0;
+
+    for (Key v : order) {
+      const size_t v_i = this->_key_to_index_V.at(v);
+      const std::vector<size_t> &adj_of_v = adj_v_can_assigned[v_i];
+      size_t u_i = way(adj_of_v);
+      if (u_i == -1) // -1 in size_t is 0xffffffff
+        continue;
+#ifdef _DEBUG
+      if (std::find(adj_of_v.begin(), adj_of_v.end(), u_i) == adj_of_v.end()) {
+        std::cerr << "u_i = " << u_i << "\n";
+        throw std::runtime_error("u_i should be one of the adj_v");
+      }
+#endif
+      val += this->weights[u_i];
+      for (std::vector<size_t> &adj_v : adj_v_can_assigned) {
+        auto p = std::find(adj_v.begin(), adj_v.end(), u_i);
+        if (p != adj_v.end()) {
+          adj_v.erase(p);
+        }
+      }
+    }
+    return val;
+  }
 };
 
 #endif /* WEIGHTED_BIPARTITE_GRAPH_HPP */
