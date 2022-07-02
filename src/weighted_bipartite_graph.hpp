@@ -50,6 +50,9 @@ public:
     this->__init_key_to_index(this->U, this->V);
     this->__init_edges_(edges);
   }
+
+  size_t maximum_matching() const override{todo};
+
 };
 
 #endif /* WEIGHTED_BIPARTITE_GRAPH_HPP */
