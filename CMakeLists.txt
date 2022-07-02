@@ -6,9 +6,11 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(
         ${PROJECT_NAME}
-        src/utils.hpp
         src/bipartite_graph.hpp
+        src/kvv90_test.hpp
         src/kvv90.hpp
-        src/test_case.hpp
+        src/utils.hpp
+        src/weighted_bigraph_test.hpp
+        src/weighted_bipartite_graph.hpp
         main.cpp
 ) 

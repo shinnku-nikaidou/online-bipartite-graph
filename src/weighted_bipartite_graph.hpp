@@ -51,10 +51,10 @@ public:
     this->__init_edges_(edges);
   }
 
-  size_t maximum_matching() const override{todo};
+  Val maximum_matching() const {todo};
 
   Val assign(const std::vector<Key> &order,
-             std::function<size_t(std::vector<size_t>)> way) const override {
+             std::function<size_t(std::vector<size_t>)> way) const {
     auto adj_v_can_assigned = this->adjacency_list_of_v;
     Val val = 0;
 

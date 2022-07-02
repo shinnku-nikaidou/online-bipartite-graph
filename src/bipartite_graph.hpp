@@ -43,13 +43,13 @@ public:
   };
 
   // TODO!
-  virtual size_t maximum_matching() const {todo};
+  size_t maximum_matching() const {todo};
 
   // return the number of successfully assigned.
   // v is assigned to one of the U.
   // if the way cannot assign v to one of the U,
   // it should return -1.
-  virtual size_t assign(const std::vector<Key> &order,
+  size_t assign(const std::vector<Key> &order,
                 std::function<size_t(std::vector<size_t>)> way) const {
     auto adj_v_can_assigned = adjacency_list_of_v;
     size_t count = 0;
