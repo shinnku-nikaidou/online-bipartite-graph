@@ -26,7 +26,6 @@ public:
   using Edge = typename Edges::value_type;
 
   Nodes U, V;
-  bipartite_graph() = delete;
 
   /*
    * U contain all the nodes which is advertiser
@@ -117,6 +116,9 @@ protected:
       }
     }
   }
+
+protected:
+  bipartite_graph() = default;
 };
 
 #endif // _BIPARTITE_GRAPH_HPP
