@@ -51,6 +51,43 @@ inline Case0 get_2_vec_cases(Val M = 1.0) {
   return std::make_tuple(M + 1, U_w, V, edge);
 }
 
+template <typename _Key, typename _Val> struct Greedy {
+  Greedy() = delete;
+
+  template <typename _U_w_Pairs>
+  requires(valid_U_w_Pair<_Key, _Val, _U_w_Pairs>)
+      Greedy(const _U_w_Pairs &U_w) {
+    for (const auto &uw : U_w) {
+      this->U.push_back(std::get<0>(uw));
+      this->weights.push_back(std::get<1>(uw));
+    }
+    size_t i = 0;
+    for (const auto &u : this->U) {
+      _key2index[u] = i++;
+    }
+  }
+
+  size_t operator()(const std::vector<size_t> &v_adj) const {
+    if (v_adj.empty())
+      return -1;
+    _Val _max = std::numeric_limits<_Val>::min();
+    size_t index = -1;
+    for (size_t i = 0; i < v_adj.size(); ++i) {
+      _Val ui_weight = this->weights.at(v_adj[i]);
+      if (ui_weight > _max) {
+        _max = ui_weight;
+        index = v_adj[i];
+      }
+    }
+    return index;
+  }
+
+private:
+  std::vector<_Key> U;
+  std::vector<_Val> weights;
+  std::unordered_map<_Key, size_t> _key2index;
+};
+
 } // namespace wbg
 
 #endif /* WEIGHTED_BIGRAPH_TEST_HPP */

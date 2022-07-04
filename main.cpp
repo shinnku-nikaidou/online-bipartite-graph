@@ -36,11 +36,16 @@ void _temp_test_kvv(size_t n_core) {
 
 void _temp_test_wei_bip(size_t n_core) {
   auto f = []() {
-    auto cases = wbg::get_2_vec_cases();
-    auto &[OPT, U, V, E] = cases;
-    // auto kvv90_ranking = kvv90::Ranking(U);
-    wbg::test_weighted_bigraph(cases, kvv90::random_assign, times);
-    // test_default_bigraph(cases, random_assign);
+    auto cases = wbg::get_2_vec_cases(0.9);
+    auto &[OPT, U_w, V, E] = cases;
+    wbg::Nodes U{};
+    for (const auto& uw: U_w ) U.push_back(std::get<0>(uw));
+    auto kvv90_ranking = kvv90::Ranking(U);
+
+    auto wbg_random = wbg::Greedy<wbg::Key, wbg::Key>(U_w);
+
+    // wbg::test_weighted_bigraph(cases, kvv90_ranking, times);
+    wbg::test_weighted_bigraph(cases, wbg_random, times);
   };
   std::vector<std::thread> threads{};
   for (auto i = 0; i < n_core; ++i) {
