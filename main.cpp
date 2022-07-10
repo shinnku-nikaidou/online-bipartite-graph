@@ -12,8 +12,8 @@ void _temp_test_wei_bip(size_t);
 int main() {
   size_t n_core = std::max((int)std::thread::hardware_concurrency() - 1, 1);
   std::cout << n_core << " :use these cpu cores to run\n";
-  // _temp_test_kvv(n_core);
-  _temp_test_wei_bip(n_core);
+  _temp_test_kvv(n_core);
+  // _temp_test_wei_bip(n_core);
   return 0;
 }
 

@@ -19,7 +19,7 @@ typedef int Key;
 typedef std::vector<Key> Nodes;
 typedef std::vector<std::pair<Key, Key>> Edges;
 
-using Case = std::tuple<int, Nodes, Nodes, Edges>;
+using Case = std::tuple<size_t, Nodes, Nodes, Edges>;
 
 inline auto
 test_default_bigraph(const Case &cases,

@@ -5,6 +5,16 @@
 #include <algorithm>
 #include <functional>
 
+template <typename _Key, typename _Ty>
+concept _valid_edges = is_vec<_Ty> && requires(_Ty edges) {
+  std::same_as<
+      typename std::remove_reference<_Key>::type,
+      typename std::remove_reference<decltype(std::get<0>(edges.at(0)))>::type>;
+  std::same_as<
+      typename std::remove_reference<_Key>::type,
+      typename std::remove_reference<decltype(std::get<1>(edges.at(0)))>::type>;
+};
+
 /*
  * A bipartite graph, also called a bigraph,
  * is a set of graph vertices decomposed into two disjoint sets
@@ -14,13 +24,8 @@
  * with vertices in each graph colored based on to
  * which of the two disjoint sets they belong.
  */
-template <typename Key, is_vec Nodes, is_vec Edges>
-requires(
-    std::same_as<typename Nodes::value_type, Key> &&std::same_as<
-        typename std::tuple_element<0, typename Edges::value_type>::type, Key>
-        &&std::same_as<
-            typename std::tuple_element<1, typename Edges::value_type>::type,
-            Key>) class bipartite_graph {
+template <typename Key, is_vec Nodes, typename Edges>
+requires(_valid_edges<Key, Edges>) class bipartite_graph {
 public:
   using value_type = Key;
   using Edge = typename Edges::value_type;
