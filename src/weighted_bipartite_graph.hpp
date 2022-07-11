@@ -5,10 +5,10 @@
 
 template <class Key, class Val, class T>
 concept valid_U_w_Pair = is_vec<T> && requires(T v) {
-  std::same_as<typename std::remove_cv<Key>::type,
-               typename std::remove_cv<decltype(std::get<0>(v.at(0)))>::type>;
-  std::same_as<typename std::remove_cv<Val>::type,
-               typename std::remove_cv<decltype(std::get<1>(v.at(0)))>::type>;
+  std::same_as<typename std::remove_reference<Key>::type,
+               typename std::remove_reference<decltype(std::get<0>(v.at(0)))>::type>;
+  std::same_as<typename std::remove_reference<Val>::type,
+               typename std::remove_reference<decltype(std::get<1>(v.at(0)))>::type>;
 };
 
 template <typename Key, is_vec Nodes, is_vec Edges, std::totally_ordered Val>

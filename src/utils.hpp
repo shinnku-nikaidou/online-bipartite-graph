@@ -1,6 +1,7 @@
 #ifndef _BI_UTILS_HPP
 #define _BI_UTILS_HPP
 
+#include <cmath>
 #include <concepts>
 #include <algorithm>
 #include <array>
