@@ -24,6 +24,7 @@ test_sto_re_bip(const Case &cases,
   int _opt_now = 0;
   int _success_count = 0;
   for (int i = 0; i < times; i++) {
+    // std::cout << i << std::endl;
     auto t = G.assign(V, way);
     _opt_now += OPT;
     _success_count += t;
@@ -31,7 +32,7 @@ test_sto_re_bip(const Case &cases,
   return show_ratio(_success_count, _opt_now);
 }
 
-inline mp12::Case G(size_t N, size_t M = 500) {
+inline mp12::Case G(size_t N, size_t M = 1000) {
   _Prob p = (double)1 / (double)M;
   mp12::Nodes U;
   mp12::Nodes V;
@@ -64,7 +65,7 @@ template <typename _Key = Key> struct Balance {
     }
   }
 
-  size_t operator()(const std::vector<size_t> &v_adj) const {
+  size_t operator()(const std::vector<size_t> &v_adj) {
     if (v_adj.empty())
       return -1;
     auto _min = std::numeric_limits<int>::max();
@@ -76,6 +77,7 @@ template <typename _Key = Key> struct Balance {
         index = v_adj[i];
       }
     }
+    std::get<1>(this->U[index])++;
     return index;
   }
 
