@@ -32,6 +32,29 @@ test_sto_re_bip(const Case &cases,
   return show_ratio(_success_count, _opt_now);
 }
 
+inline mp12::Case my_case(size_t M = 1000) {
+  _Prob p = (double)1 / (double)M;
+  mp12::Nodes U{0, 1, 2};
+  mp12::Nodes V;
+  auto _E = std::vector<std::pair<Key, Key>>{
+      std::make_pair(0, 0), std::make_pair(1, 0), std::make_pair(2, 0),
+      std::make_pair(1, 1), std::make_pair(2, 1), std::make_pair(2, 2),
+  };
+  for (int v = 0; v < M * U.size(); v++) {
+    V.push_back(v);
+  }
+  mp12::Edges E{};
+
+  for (const auto &e : _E) {
+    int u = e.first;
+    int v = e.second;
+    for (int i = M * v; i < M * (v + 1); i++) {
+      E.emplace_back(u, i);
+    }
+  }
+  return std::make_tuple(U.size(), U, V, E, p);
+}
+
 inline mp12::Case G(size_t N, size_t M = 1000) {
   _Prob p = (double)1 / (double)M;
   mp12::Nodes U;
@@ -53,6 +76,14 @@ inline mp12::Case G(size_t N, size_t M = 1000) {
 
 template <typename _Key = Key> struct Balance {
   Balance() = delete;
+
+  Balance(const Balance &other) {
+    this->_key2index = other._key2index;
+    this->p = other.p;
+    for (const auto &u : other.U) {
+      this->U.emplace_back(std::get<0>(u), 0);
+    }
+  }
 
   Balance(const Nodes &_U, const _Prob probability) {
     this->p = probability;
