@@ -1,4 +1,4 @@
-#include "src/kvv90_test.hpp"
+#include "src/kvv90.hpp"
 #include "src/weighted_bigraph_test.hpp"
 #include <mutex>
 #include <thread>
@@ -8,14 +8,17 @@ constexpr size_t times = 1000;
 
 void _temp_test_kvv(size_t);
 void _temp_test_wei_bip(size_t);
+void _temp_test_sto_re_bip(size_t);
 
 int main() {
   size_t n_core = std::max((int)std::thread::hardware_concurrency() - 1, 1);
   std::cout << n_core << " :use these cpu cores to run\n";
   // _temp_test_kvv(n_core);
-  _temp_test_wei_bip(n_core);
+  // _temp_test_wei_bip(n_core);
+  _temp_test_sto_re_bip(n_core);
   return 0;
 }
+
 
 void _temp_test_kvv(size_t n_core) {
   auto f = []() {
@@ -43,6 +46,18 @@ void _temp_test_wei_bip(size_t n_core) {
     // wbg::test_weighted_bigraph(cases, kvv90_ranking, times);
     wbg::test_weighted_bigraph(cases, wbg_ranking, times);
   };
+  std::vector<std::thread> threads{};
+  for (auto i = 0; i < n_core; ++i) {
+    threads.push_back(std::thread(f));
+  }
+  for (auto &thread : threads) {
+    thread.join();
+  }
+}
+
+
+void _temp_test_sto_re_bip(size_t n_core) {
+  auto f = []() {};
   std::vector<std::thread> threads{};
   for (auto i = 0; i < n_core; ++i) {
     threads.push_back(std::thread(f));

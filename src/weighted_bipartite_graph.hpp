@@ -65,12 +65,6 @@ public:
       // It's means allocate failed
       if (u_i == -1)
         continue;
-#ifdef _DEBUG
-      if (std::find(adj_of_v.begin(), adj_of_v.end(), u_i) == adj_of_v.end()) {
-        std::cerr << "u_i = " << u_i << "\n";
-        throw std::runtime_error("u_i should be one of the adj_v");
-      }
-#endif
       val += this->weights[u_i];
       for (std::vector<size_t> &adj_v : adj_v_can_assigned) {
         auto p = std::find(adj_v.begin(), adj_v.end(), u_i);

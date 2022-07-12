@@ -32,10 +32,7 @@ test_weighted_bigraph(const Case0 &cases,
     _opt_now += OPT;
     _success_val += t;
   }
-  auto ratio = (double)_success_val / (double)_opt_now;
-  std::cout << "ratio: " << _success_val << " / " << _opt_now << " = " << ratio
-            << std::endl;
-  return ratio;
+  return show_ratio(_success_val, _opt_now);
 }
 
 // Two extreme examples for vertex-weighted bipartite matching
@@ -87,7 +84,6 @@ private:
   std::vector<_Val> weights;
   std::unordered_map<_Key, size_t> _key2index;
 };
-
 
 // this way is recorded in the
 // Online Vertex-Weighted Bipartite Matching and
