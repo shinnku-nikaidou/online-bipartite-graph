@@ -41,7 +41,7 @@ void _temp_test_wei_bip(size_t n_core) {
     auto cases = wbg::get_2_vec_cases(1000);
     auto &[OPT, U_w, V, E] = cases;
     auto wbg_ranking = wbg::Ranking<wbg::Key, wbg::Val>(U_w);
-    auto wbg_greedy = wbg::Greedy<wbg::Key, wbg::Key>(U_w);
+    auto wbg_greedy = wbg::Greedy<wbg::Key, wbg::Val>(U_w);
     ratio_sum += wbg::test_weighted_bigraph(cases, wbg_ranking, times);
   };
   test_with_n_core(f, n_core);
