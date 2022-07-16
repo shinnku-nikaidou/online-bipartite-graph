@@ -7,12 +7,12 @@
 
 template <typename _Key, typename _Ty>
 concept _valid_edges = is_vec<_Ty> && requires(_Ty edges) {
-  std::same_as<
+  requires std::same_as<
       typename std::remove_reference<_Key>::type,
-      typename std::remove_reference<decltype(std::get<0>(edges.at(0)))>::type>;
-  std::same_as<
+      std::remove_cv_t<typename std::remove_reference<decltype(std::get<0>(edges.at(0)))>::type>>;
+  requires std::same_as<
       typename std::remove_reference<_Key>::type,
-      typename std::remove_reference<decltype(std::get<1>(edges.at(0)))>::type>;
+      std::remove_cv_t<typename std::remove_reference<decltype(std::get<1>(edges.at(0)))>::type>>;
 };
 
 /*
@@ -107,8 +107,7 @@ protected:
 
   void __init_edges_(const Edges &edges) {
     for (const auto &edge : edges) {
-      auto u = std::get<0>(edge);
-      auto v = std::get<1>(edge);
+      auto [u, v] = edge;
       if (_key_to_index_U.contains(u) && _key_to_index_V.contains(v)) {
         size_t ui = _key_to_index_U.at(u);
         size_t vi = _key_to_index_V.at(v);
