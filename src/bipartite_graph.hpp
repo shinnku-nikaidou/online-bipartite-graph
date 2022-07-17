@@ -7,12 +7,12 @@
 
 template <typename _Key, typename _Ty>
 concept _valid_edges = is_vec<_Ty> && requires(_Ty edges) {
-  requires std::same_as<
-      typename std::remove_reference<_Key>::type,
-      std::remove_cv_t<typename std::remove_reference<decltype(std::get<0>(edges.at(0)))>::type>>;
-  requires std::same_as<
-      typename std::remove_reference<_Key>::type,
-      std::remove_cv_t<typename std::remove_reference<decltype(std::get<1>(edges.at(0)))>::type>>;
+  requires std::same_as<typename std::remove_reference<_Key>::type,
+                        std::remove_cv_t<typename std::remove_reference<
+                            decltype(std::get<0>(edges.at(0)))>::type>>;
+  requires std::same_as<typename std::remove_reference<_Key>::type,
+                        std::remove_cv_t<typename std::remove_reference<
+                            decltype(std::get<1>(edges.at(0)))>::type>>;
 };
 
 /*

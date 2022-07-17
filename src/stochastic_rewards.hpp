@@ -6,9 +6,8 @@
 template <typename _Key, typename _Prob, typename _Ty>
 concept _valid_edges_with_prob = _valid_edges<_Key, _Ty> &&
     requires(_Ty edges) {
-  requires std::same_as<
-      typename std::remove_reference<_Prob>::type,
-      typename std::remove_reference<decltype(std::get<2>(edges.at(0)))>::type>;
+  requires std::same_as < typename std::remove_reference<_Prob>::type,
+  typename std::remove_reference<decltype(std::get<2>(edges.at(0)))>::type > ;
 };
 
 // This datatype assume each prob p_{u,v}
